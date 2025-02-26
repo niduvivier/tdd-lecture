@@ -7,6 +7,7 @@ public class PasswordValidationService {
 
         boolean hasUppercase = false;
         boolean hasDigit = false;
+        boolean hasSpecial = false;
 
         for (char ch : password.toCharArray()) {
             if (Character.isUpperCase(ch)) {
@@ -15,7 +16,10 @@ public class PasswordValidationService {
             if (Character.isDigit(ch)) {
                 hasDigit = true;
             }
+            if (!Character.isLetterOrDigit(ch)) {
+                hasSpecial = true;
+            }
         }
-        return hasUppercase && hasDigit;
+        return hasUppercase && hasDigit && hasSpecial;
     }
 }
