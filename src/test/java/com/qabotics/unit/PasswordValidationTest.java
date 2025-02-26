@@ -1,16 +1,28 @@
 package com.qabotics.unit;
 
+import com.qabotics.account.PasswordBlacklistService;
 import com.qabotics.account.PasswordValidationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class PasswordValidationTest {
+
+    @Mock
+    PasswordBlacklistService passwordBlacklistService;
+
     PasswordValidationService passwordValidationService;
 
     @BeforeEach
     public void setUp() {
-        passwordValidationService = new PasswordValidationService();
+        MockitoAnnotations.openMocks(this);
+        when(passwordBlacklistService.isCommonPassword(anyString())).thenReturn(false);
+        passwordValidationService = new PasswordValidationService(passwordBlacklistService);
     }
 
     @Test

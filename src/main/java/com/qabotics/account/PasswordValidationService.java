@@ -1,6 +1,13 @@
 package com.qabotics.account;
 
 public class PasswordValidationService {
+
+    private final PasswordBlacklistService blacklistService;
+
+    public PasswordValidationService(PasswordBlacklistService blacklistService) {
+        this.blacklistService = blacklistService;
+    }
+
     public boolean isValid(String password) {
         if (password == null) throw new IllegalArgumentException("Password cannot be null");
         if (password.length() < 10) return false;
@@ -20,6 +27,10 @@ public class PasswordValidationService {
                 hasSpecial = true;
             }
         }
-        return hasUppercase && hasDigit && hasSpecial;
+
+        if (!(hasUppercase && hasDigit && hasSpecial))
+            return false;
+
+        return !blacklistService.isCommonPassword(password);
     }
 }
