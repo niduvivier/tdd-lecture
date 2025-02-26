@@ -47,4 +47,14 @@ public class PasswordValidationTest {
         boolean isValid = passwordValidationService.isValid(password);
         Assertions.assertFalse(isValid);
     }
+
+    @Test
+    public void givenPasswordIsNull_whenValidating_thenThrowsNullArgumentException() {
+        String password = null;
+        IllegalArgumentException e = Assertions.assertThrowsExactly(
+                IllegalArgumentException.class,
+                () -> passwordValidationService.isValid(password)
+        );
+        Assertions.assertEquals("Password cannot be null", e.getMessage());
+    }
 }
